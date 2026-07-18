@@ -1,0 +1,23 @@
+{
+  "name": "security-engine",
+  "version": "0.1.0",
+  "description": "Reusable Express middleware engine for detecting SQL Injection, XSS, and Brute Force attacks. Framework-agnostic storage layer via a StorageAdapter interface.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": ["security", "middleware", "express", "sql-injection", "xss", "brute-force"],
+  "license": "MIT",
+  "peerDependencies": {
+    "mongoose": "^8.0.0"
+  },
+  "peerDependenciesMeta": {
+    "mongoose": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "mongoose": "^8.0.0"
+  }
+}
