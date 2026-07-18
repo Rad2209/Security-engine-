@@ -74,14 +74,29 @@ function validateAdapter(adapter) {
  * @param {object} userConfig - config passed by the host app to SecurityEngine.init()
  * @returns {object} fully-merged, validated configuration
  */
+// function buildConfig(userConfig = {}) {
+//   validateAdapter(userConfig.storageAdapter);
+
+//   const merged = deepMerge(defaultConfig, userConfig);
+
+//   // storageAdapter isn't part of defaultConfig (it has no sensible default),
+//   // so make sure it survives the merge explicitly.
+//   merged.storageAdapter = userConfig.storageAdapter;
+
+//   return merged;
+// }
+
 function buildConfig(userConfig = {}) {
   validateAdapter(userConfig.storageAdapter);
 
   const merged = deepMerge(defaultConfig, userConfig);
-
-  // storageAdapter isn't part of defaultConfig (it has no sensible default),
-  // so make sure it survives the merge explicitly.
   merged.storageAdapter = userConfig.storageAdapter;
+
+  // Convert path-list arrays to Sets ONCE here, at config-build time (which
+  // runs once per SecurityEngine.init() call), rather than checking
+  // membership with Array.includes() on every single incoming request.
+  merged.ignorePaths = new Set(merged.ignorePaths);
+  merged.detectors.bruteForce.protectedRoutes = new Set(merged.detectors.bruteForce.protectedRoutes);
 
   return merged;
 }

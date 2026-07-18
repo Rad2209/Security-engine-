@@ -6,7 +6,10 @@ const config = {
   maxAttemptsPerAccount: 5,
   windowMinutes: 15,
   blockDurationMinutes: 30,
-  protectedRoutes: ['/api/auth/login', '/api/admin/login'],
+  
+  // protectedRoutes: ['/api/auth/login', '/api/admin/login'],
+
+  protectedRoutes: new Set(['/api/auth/login', '/api/admin/login']),
 };
 
 /**

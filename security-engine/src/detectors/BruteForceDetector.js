@@ -22,8 +22,12 @@ class BruteForceDetector {
    * @param {object} config - config.detectors.bruteForce
    * @returns {boolean} whether this route should be tracked at all
    */
-  static applies(path, config) {
-    return config.enabled && config.protectedRoutes.includes(path);
+  // static applies(path, config) {
+  //   return config.enabled && config.protectedRoutes.includes(path);
+  // }
+
+    static applies(path, config) {
+    return config.enabled && config.protectedRoutes.has(path);
   }
 
   /**
@@ -35,18 +39,52 @@ class BruteForceDetector {
    * @param {import('../storage/StorageAdapter')} storageAdapter
    * @returns {Promise<{ blocked: boolean, reason: string|null }>}
    */
+  // static async check({ ip, identifier }, config, storageAdapter) {
+  //   // Existing, still-active blocks take priority over re-counting attempts.
+  //   const ipBlocked = await storageAdapter.isIpBlocked(ip);
+  //   if (ipBlocked) {
+  //     return { blocked: true, reason: 'ip_blocked' };
+  //   }
+
+  //   if (identifier) {
+  //     const accountBlocked = await storageAdapter.isAccountBlocked(identifier);
+  //     if (accountBlocked) {
+  //       return { blocked: true, reason: 'account_blocked' };
+  //     }
+  //   }
+
+  //   const { ipCount, accountCount } = await storageAdapter.countRecentAttempts({
+  //     ip,
+  //     identifier,
+  //     windowMinutes: config.windowMinutes,
+  //   });
+
+  //   if (ipCount >= config.maxAttemptsPerIp) {
+  //     await this._blockIp(ip, config, storageAdapter);
+  //     return { blocked: true, reason: 'ip_threshold_exceeded' };
+  //   }
+
+  //   if (identifier && accountCount >= config.maxAttemptsPerAccount) {
+  //     await this._blockAccount(identifier, config, storageAdapter);
+  //     return { blocked: true, reason: 'account_threshold_exceeded' };
+  //   }
+
+  //   return { blocked: false, reason: null };
+  // }
+
+
   static async check({ ip, identifier }, config, storageAdapter) {
-    // Existing, still-active blocks take priority over re-counting attempts.
-    const ipBlocked = await storageAdapter.isIpBlocked(ip);
+    const [ipBlocked, accountBlocked] = await Promise.all([
+      storageAdapter.isIpBlocked(ip),
+      identifier ? storageAdapter.isAccountBlocked(identifier) : Promise.resolve(false),
+    ]);
+
     if (ipBlocked) {
       return { blocked: true, reason: 'ip_blocked' };
     }
 
-    if (identifier) {
-      const accountBlocked = await storageAdapter.isAccountBlocked(identifier);
-      if (accountBlocked) {
-        return { blocked: true, reason: 'account_blocked' };
-      }
+    if (accountBlocked) {
+      return { blocked: true, reason: 'account_blocked' };
     }
 
     const { ipCount, accountCount } = await storageAdapter.countRecentAttempts({

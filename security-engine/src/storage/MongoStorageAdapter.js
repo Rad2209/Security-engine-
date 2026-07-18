@@ -56,6 +56,17 @@ const blockedAccountSchema = new mongoose.Schema({
 
 // Guard against OverwriteModelError if this file is ever required twice
 // (e.g. in tests) by reusing an existing compiled model when present.
+
+attackLogSchema.index({ timestamp: -1 });
+attackLogSchema.index({ type: 1, timestamp: -1 });
+attackLogSchema.index({ ip: 1, timestamp: -1 });
+
+loginAttemptSchema.index({ ip: 1, timestamp: -1 });
+loginAttemptSchema.index({ identifier: 1, timestamp: -1 });
+
+blockedIpSchema.index({ active: 1, expiresAt: 1 });
+blockedAccountSchema.index({ active: 1, expiresAt: 1 });
+
 function modelOrCreate(name, schema) {
   return mongoose.models[name] || mongoose.model(name, schema);
 }
