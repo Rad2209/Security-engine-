@@ -1,5 +1,5 @@
 const express = require('express');
-const { registerHandler, loginHandler, logoutHandler } = require('../controllers/authController');
+// const { registerHandler, loginHandler, logoutHandler } = require('../controllers/authController');
 const {
   registerValidators,
   loginValidators,
