@@ -72,29 +72,33 @@ function logoutHandler(req, res) {
   return success(res, { message: 'Logged out' });
 }
 /**
- * GET /api/admin/me — sits behind adminAuthMiddleware (see adminRoutes.js),
- * so req.admin is already populated by the time this runs. Same purpose as
- * authController.js's meHandler: the only way the admin frontend can know
- * "is there a valid admin session?" on page load/refresh.
+ * GET /api/auth/me — sits behind authMiddleware (see authRoutes.js), so
+ * req.user is already populated from the verified JWT by the time this
+ * runs. This is the ONLY way the frontend can know "is there a valid
+ * session?" on page load/refresh, since the token itself lives in an
+ * httpOnly cookie that JavaScript is deliberately unable to read.
  */
-async function adminMeHandler(req, res, next) {
+async function meHandler(req, res, next) {
   try {
-    const admin = await adminAuthService.getAdminById(req.admin.id);
+    const user = await authService.getUserById(req.user.id);
 
-    if (!admin) {
-      return error(res, 'Admin not found', 404);
+    if (!user) {
+      // Token was valid but the account no longer exists (e.g. deleted
+      // after the token was issued) — treat as "not logged in."
+      return error(res, 'User not found', 404);
     }
 
-    return success(res, { id: admin._id, name: admin.name, email: admin.email });
+    return success(res, { id: user._id, name: user.name, email: user.email });
   } catch (err) {
     return next(err);
   }
 }
 
 module.exports = {
-  adminLoginHandler,
-  adminLogoutHandler,
-  adminMeHandler,
+  registerHandler,
+  loginHandler,
+  logoutHandler,
+  meHandler,
   COOKIE_NAME,
   COOKIE_OPTIONS,
 };
