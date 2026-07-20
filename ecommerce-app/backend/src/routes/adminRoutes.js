@@ -1,5 +1,5 @@
 const express = require('express');
-const { adminLoginHandler, adminLogoutHandler } = require('../controllers/adminAuthController');
+// const { adminLoginHandler, adminLogoutHandler } = require('../controllers/adminAuthController');
 const { listUsersHandler } = require('../controllers/adminUserController');
 const { listAllProductsHandler } = require('../controllers/adminProductController');
 const {
