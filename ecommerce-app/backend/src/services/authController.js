@@ -70,6 +70,38 @@ function logoutHandler(req, res) {
   const { maxAge, ...clearOptions } = COOKIE_OPTIONS;
   res.clearCookie(COOKIE_NAME, clearOptions);
   return success(res, { message: 'Logged out' });
+  
+}
+/**
+ * GET /api/auth/me — sits behind authMiddleware (see authRoutes.js), so
+ * req.user is already populated from the verified JWT by the time this
+ * runs. This is the ONLY way the frontend can know "is there a valid
+ * session?" on page load/refresh, since the token itself lives in an
+ * httpOnly cookie that JavaScript is deliberately unable to read.
+ */
+async function meHandler(req, res, next) {
+  try {
+    const user = await authService.getUserById(req.user.id);
+
+    if (!user) {
+      // Token was valid but the account no longer exists (e.g. deleted
+      // after the token was issued) — treat as "not logged in."
+      return error(res, 'User not found', 404);
+    }
+
+    return success(res, { id: user._id, name: user.name, email: user.email });
+  } catch (err) {
+    return next(err);
+  }
 }
 
-module.exports = { registerHandler, loginHandler, logoutHandler, COOKIE_NAME, COOKIE_OPTIONS };
+module.exports = {
+  registerHandler,
+  loginHandler,
+  logoutHandler,
+  meHandler,
+  COOKIE_NAME,
+  COOKIE_OPTIONS,
+};
+
+// module.exports = { registerHandler, loginHandler, logoutHandler, COOKIE_NAME, COOKIE_OPTIONS };

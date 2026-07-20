@@ -66,5 +66,18 @@ function signToken(user) {
     expiresIn: TOKEN_EXPIRY,
   });
 }
+/**
+ 
+ * Used by GET /api/auth/me to answer "who is the current session, if any?"
+ * — the frontend can't read the httpOnly cookie's contents directly (by
+ * design), so it needs an endpoint that decodes the verified token
+ * server-side and reports back the actual user.
+ *
+ * @param {string} id
+ * @returns {Promise<import('mongoose').Document|null>}
+ */
+async function getUserById(id) {
+  return User.findById(id).select('-passwordHash');
+}
 
-module.exports = { register, validateCredentials, signToken, TOKEN_EXPIRY };
+module.exports = { register, validateCredentials, signToken, getUserById, TOKEN_EXPIRY };

@@ -71,5 +71,32 @@ function logoutHandler(req, res) {
   res.clearCookie(COOKIE_NAME, clearOptions);
   return success(res, { message: 'Logged out' });
 }
+/**
+ * GET /api/admin/me — sits behind adminAuthMiddleware (see adminRoutes.js),
+ * so req.admin is already populated by the time this runs. Same purpose as
+ * authController.js's meHandler: the only way the admin frontend can know
+ * "is there a valid admin session?" on page load/refresh.
+ */
+async function adminMeHandler(req, res, next) {
+  try {
+    const admin = await adminAuthService.getAdminById(req.admin.id);
 
-module.exports = { registerHandler, loginHandler, logoutHandler, COOKIE_NAME, COOKIE_OPTIONS };
+    if (!admin) {
+      return error(res, 'Admin not found', 404);
+    }
+
+    return success(res, { id: admin._id, name: admin.name, email: admin.email });
+  } catch (err) {
+    return next(err);
+  }
+}
+
+module.exports = {
+  adminLoginHandler,
+  adminLogoutHandler,
+  adminMeHandler,
+  COOKIE_NAME,
+  COOKIE_OPTIONS,
+};
+
+// module.exports = { registerHandler, loginHandler, logoutHandler, COOKIE_NAME, COOKIE_OPTIONS };

@@ -12,6 +12,9 @@ const { loginValidators } = require('../validators/authValidators');
 const { listLogsValidators, ipParamValidator } = require('../validators/adminSecurityValidators');
 const handleValidation = require('../validators/handleValidation');
 const adminAuthMiddleware = require('../middleware/adminAuthMiddleware');
+const { adminLoginHandler, adminLogoutHandler, adminMeHandler } = require('../controllers/adminAuthController');
+
+// ...
 
 const router = express.Router();
 
@@ -22,11 +25,18 @@ const router = express.Router();
  * below router.use(adminAuthMiddleware) requires a verified admin session
  * — Express applies router.use() middleware only to routes registered
  * AFTER it in the same router, so login/logout are correctly excluded.
+ *
  */
+
 router.post('/login', loginValidators, handleValidation, adminLoginHandler);
 router.post('/logout', adminLogoutHandler);
 
+// router.use(adminAuthMiddleware);
 router.use(adminAuthMiddleware);
+
+router.get('/me', adminMeHandler);
+router.get('/users', listUsersHandler);
+// ... rest unchanged
 
 router.get('/users', listUsersHandler);
 router.get('/products', listAllProductsHandler);

@@ -6,6 +6,10 @@ const {
   handleValidation,
 } = require('../validators/authValidators');
 
+const { registerHandler, loginHandler, logoutHandler, meHandler } = require('../controllers/authController');
+// ... (registerValidators/loginValidators/handleValidation import unchanged)
+const authMiddleware = require('../middleware/authMiddleware');
+
 const router = express.Router();
 
 /**
@@ -19,5 +23,8 @@ const router = express.Router();
 router.post('/register', registerValidators, handleValidation, registerHandler);
 router.post('/login', loginValidators, handleValidation, loginHandler);
 router.post('/logout', logoutHandler);
+// ... existing routes, then add:
+router.get('/me', authMiddleware, meHandler);
+
 
 module.exports = router;

@@ -44,5 +44,15 @@ function signAdminToken(admin) {
     expiresIn: TOKEN_EXPIRY,
   });
 }
+/**
+ * Used by GET /api/admin/me — same reasoning as authService.getUserById().
+ * @param {string} id
+ * @returns {Promise<import('mongoose').Document|null>}
+ */
+async function getAdminById(id) {
+  return Admin.findById(id).select('-passwordHash');
+}
 
-module.exports = { validateAdminCredentials, signAdminToken, TOKEN_EXPIRY };
+module.exports = { validateAdminCredentials, signAdminToken, getAdminById, TOKEN_EXPIRY };
+
+// module.exports = { validateAdminCredentials, signAdminToken, TOKEN_EXPIRY };
