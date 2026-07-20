@@ -6,6 +6,7 @@ process.env.NODE_ENV = 'development';
 jest.mock('../src/models', () => ({
   Admin: {
     findOne: jest.fn(),
+    findById: jest.fn(),
   },
 }));
 
@@ -23,6 +24,7 @@ jest.mock('../src/middleware/securityAdapter', () => ({
 
 const request = require('supertest');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const { Admin } = require('../src/models');
 const securityAdapter = require('../src/middleware/securityAdapter');
 const createApp = require('../src/app');
@@ -87,6 +89,20 @@ describe('POST /api/admin/logout', () => {
     expect(res.status).toBe(200);
     const cookies = res.headers['set-cookie'];
     expect(cookies.some((c) => c.startsWith('adminToken=;'))).toBe(true);
+  });
+});
+
+describe('GET /api/admin/me', () => {
+  test('returns the authenticated admin profile from the session', async () => {
+    const token = jwt.sign({ sub: 'admin-1', role: 'admin' }, 'test-secret-not-for-production', { expiresIn: '1h' });
+    Admin.findById.mockReturnValue({
+      select: jest.fn().mockResolvedValue({ _id: 'admin-1', name: 'Admin', email: 'admin@x.com' }),
+    });
+
+    const res = await request(app).get('/api/admin/me').set('Cookie', [`adminToken=${token}`]);
+
+    expect(res.status).toBe(200);
+    expect(res.body.data).toEqual({ id: 'admin-1', name: 'Admin', email: 'admin@x.com' });
   });
 });
 
