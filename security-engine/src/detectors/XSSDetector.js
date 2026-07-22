@@ -13,15 +13,31 @@ const { xssPatterns } = require('../utils/patterns');
  */
 class XSSDetector {
   /**
+   * Tests a single field's value against every XSS pattern.
+   * Exposed so SecurityEngine can run a shared field-by-field pass while
+   * preserving the same single-source-of-truth logic for both detectors.
+   *
+   * @param {string} value
+   * @returns {string|null} the source of the first matching pattern, or null
+   */
+  static testField(value) {
+    for (const pattern of xssPatterns) {
+      if (pattern.test(value)) {
+        return pattern.source;
+      }
+    }
+    return null;
+  }
+
+  /**
    * @param {object} normalizedRequest - output of RequestInspector.extract()
    * @returns {{ malicious: boolean, matchedPattern: string|null, field: string|null }}
    */
   static scan(normalizedRequest) {
     for (const [field, value] of Object.entries(normalizedRequest.fields)) {
-      for (const pattern of xssPatterns) {
-        if (pattern.test(value)) {
-          return { malicious: true, matchedPattern: pattern.source, field };
-        }
+      const matchedPattern = this.testField(value);
+      if (matchedPattern) {
+        return { malicious: true, matchedPattern, field };
       }
     }
 

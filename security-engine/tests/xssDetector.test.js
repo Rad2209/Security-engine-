@@ -54,4 +54,9 @@ describe('XSSDetector — reports which field triggered it', () => {
     expect(result.malicious).toBe(true);
     expect(result.field).toBe('body.comment');
   });
+
+  test('exposes testField() for the shared field-by-field detection path', () => {
+    const matchedPattern = XSSDetector.testField("<script>alert(1)</script>");
+    expect(matchedPattern).toBeTruthy();
+  });
 });

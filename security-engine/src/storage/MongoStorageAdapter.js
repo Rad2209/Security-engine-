@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = globalThis.__securityEngineMongoose || require('mongoose');
 const StorageAdapter = require('./StorageAdapter');
 
 /**

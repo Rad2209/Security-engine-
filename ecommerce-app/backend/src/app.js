@@ -31,9 +31,24 @@ function createApp(securityMiddleware) {
   // credentials: true is required for the httpOnly JWT cookie to be sent
   // cross-origin between Vercel (frontend) and Render (backend) — see
   // docs/architecture §11 and §9.
+  const allowedOrigins = new Set([
+    env.FRONTEND_URL,
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:5174',
+  ]);
+
   app.use(
     cors({
-      origin: env.FRONTEND_URL,
+      origin(origin, callback) {
+        if (!origin || allowedOrigins.has(origin)) {
+          callback(null, true);
+          return;
+        }
+
+        callback(new Error(`Origin not allowed: ${origin}`));
+      },
       credentials: true,
     })
   );
