@@ -1,23 +1,39 @@
+import { useLocation } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
+import AppRoutes from './routes/AppRoutes';
+
 /**
- * App.jsx — Phase 1 placeholder.
+ * Layout
  *
- * This just proves the Vite + React + Tailwind pipeline (fonts, colors,
- * build) works end to end. Real routing, context providers, and layout
- * (Header/Footer) get wired in here during Phase 4.
+ * Admin routes (/admin/*) intentionally render WITHOUT the customer
+ * Header/Footer — the admin dashboard is a separate tool, not a page
+ * within the storefront, and gets its own nav in the admin pages phase.
  */
+function Layout() {
+  const location = useLocation();
+  const isAdminSection = location.pathname.startsWith('/admin');
+
+  return (
+    <div className="flex min-h-screen flex-col">
+      {!isAdminSection && <Header />}
+      <main className="flex-1">
+        <AppRoutes />
+      </main>
+      {!isAdminSection && <Footer />}
+    </div>
+  );
+}
+
 function App() {
   return (
-    <div className="flex min-h-screen items-center justify-center px-6">
-      <div className="text-center">
-        <h1 className="font-display text-4xl font-semibold tracking-tight text-mist-100">
-          ESCAPEMENT
-        </h1>
-        <p className="mt-3 font-mono text-sm text-steel-500">
-          Phase 1 scaffold — routing wired in Phase 4
-        </p>
-        <p className="mt-6 font-mono text-xs text-brass-400">42mm · 100m · 42h</p>
-      </div>
-    </div>
+    <AuthProvider>
+      <CartProvider>
+        <Layout />
+      </CartProvider>
+    </AuthProvider>
   );
 }
 

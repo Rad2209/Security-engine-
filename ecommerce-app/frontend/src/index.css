@@ -11,14 +11,11 @@
     @apply bg-brass-400/30 text-mist-100;
   }
 
-  /* Visible keyboard focus everywhere — quality floor, not optional. */
   :focus-visible {
     @apply outline-none ring-2 ring-brass-400 ring-offset-2 ring-offset-ink-950;
   }
 }
 
-/* Respect prefers-reduced-motion for the one deliberate motion moment
-   (the hero's single hairline seconds-tick, added in a later phase). */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -26,5 +23,19 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes tick-once {
+  0% {
+    transform: rotate(-90deg);
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(0deg);
+    opacity: 1;
   }
 }
