@@ -15,7 +15,7 @@ module.exports = {
     },
     bruteForce: {
       enabled: true,
-      maxAttemptsPerIp: 10,
+      maxAttemptsPerIp: 5,
       maxAttemptsPerAccount: 5,
       windowMinutes: 15,
       blockDurationMinutes: 30,
