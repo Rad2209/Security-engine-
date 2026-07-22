@@ -60,6 +60,10 @@ function createApp(securityMiddleware) {
   // before any route/controller executes.
   app.use(securityMiddleware);
 
+  app.get('/', (req, res) => {
+    res.status(200).json({ success: true, data: { status: 'ok', message: 'Escapement backend is running' } });
+  });
+
   app.use('/api', routes);
 
   // Must be registered last.

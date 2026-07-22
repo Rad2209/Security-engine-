@@ -9,6 +9,17 @@ const createApp = require('../src/app');
 const SecurityEngine = require('security-engine');
 
 describe('App wiring — basic middleware chain', () => {
+  test('the root path returns a simple status response', async () => {
+    const allowAll = (req, res, next) => next();
+    const app = createApp(allowAll);
+
+    const res = await request(app).get('/');
+
+    expect(res.status).toBe(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.status).toBe('ok');
+  });
+
   test('a normal request reaches the route when security middleware allows it', async () => {
     const allowAll = (req, res, next) => next();
     const app = createApp(allowAll);
