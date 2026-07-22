@@ -18,7 +18,7 @@ module.exports = {
       maxAttemptsPerIp: 5,
       maxAttemptsPerAccount: 5,
       windowMinutes: 15,
-      blockDurationMinutes: 30,
+      blockDurationMinutes: 5,
       // Routes the engine should apply brute-force tracking to.
       // Matched against req.path with exact string equality (kept simple
       // deliberately — no wildcard/regex route matching in v1).
