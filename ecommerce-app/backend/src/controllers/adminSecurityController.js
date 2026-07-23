@@ -37,5 +37,21 @@ async function getStatsHandler(req, res, next) {
     return next(err);
   }
 }
+async function listBlockedAccountsHandler(req, res, next) {
+  try {
+    const blockedAccounts = await adminSecurityService.listBlockedAccounts();
+    return success(res, blockedAccounts);
+  } catch (err) {
+    return next(err);
+  }
+}
 
-module.exports = { listLogsHandler, listBlockedIpsHandler, unblockIpHandler, getStatsHandler };
+async function unblockAccountHandler(req, res, next) {
+  try {
+    await adminSecurityService.unblockAccount(req.params.identifier);
+    return success(res, { message: `Account ${req.params.identifier} unblocked` });
+  } catch (err) {
+    return next(err);
+  }
+}
+module.exports = { listLogsHandler, listBlockedIpsHandler, unblockIpHandler, getStatsHandler, listBlockedAccountsHandler, unblockAccountHandler  };

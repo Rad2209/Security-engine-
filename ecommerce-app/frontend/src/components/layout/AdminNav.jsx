@@ -6,7 +6,8 @@ const LINKS = [
   { to: '/admin/users', label: 'Users' },
   { to: '/admin/products', label: 'Products' },
   { to: '/admin/logs', label: 'Attack Logs' },
-  { to: '/admin/blocked-ips', label: 'Blocked IPs' },
+  // { to: '/admin/blocked-ips', label: 'Blocked IPs' },
+  { to: '/admin/blocked-ips', label: 'Blocked' },
 ];
 
 /**

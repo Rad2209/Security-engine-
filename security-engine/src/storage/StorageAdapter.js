@@ -109,6 +109,27 @@ class StorageAdapter {
   async getStats() {
     throw new Error('StorageAdapter.getStats() not implemented');
   }
+  /**
+ * @param {string} identifier
+ * @returns {Promise<void>}
+ */
+async unblockAccount(identifier) {
+  throw new Error('StorageAdapter.unblockAccount() not implemented');
+}
+/**
+ * EXTENDED / OPTIONAL — same reasoning as listBlockedIps() above. This
+ * was missing for a while even though BruteForceDetector has always been
+ * capable of creating account-level blocks (via createBlock({type:
+ * 'account', ...})) independently of IP blocks — meaning an account
+ * could be blocked with no way for an admin to see or undo it. Fixed by
+ * adding the missing read/management surface, not by changing the
+ * blocking logic itself, which was already correct.
+ *
+ * @returns {Promise<Array<{ identifier: string, reason: string, blockedAt: Date, expiresAt: Date }>>}
+ */
+async listBlockedAccounts() {
+  throw new Error('StorageAdapter.listBlockedAccounts() not implemented');
+}
 }
 
 module.exports = StorageAdapter;

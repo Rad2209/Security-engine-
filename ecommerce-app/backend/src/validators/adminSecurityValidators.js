@@ -18,5 +18,8 @@ const listLogsValidators = [
 ];
 
 const ipParamValidator = [param('ip').trim().notEmpty().withMessage('IP is required')];
+const identifierParamValidator = [
+  param('identifier').trim().notEmpty().withMessage('Identifier is required'),
+];
 
-module.exports = { listLogsValidators, ipParamValidator };
+module.exports = { listLogsValidators, ipParamValidator, identifierParamValidator };

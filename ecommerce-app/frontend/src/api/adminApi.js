@@ -51,3 +51,21 @@ export async function getStats() {
   const envelope = await axiosInstance.get('/admin/stats');
   return envelope.data;
 }
+/**
+ * @returns {Promise<Array<{ identifier: string, reason: string, blockedAt: string, expiresAt: string }>>}
+ */
+export async function listBlockedAccounts() {
+  const envelope = await axiosInstance.get('/admin/blocked-accounts');
+  return envelope.data;
+}
+
+/**
+ * @param {string} identifier
+ * @returns {Promise<{ message: string }>}
+ */
+export async function unblockAccount(identifier) {
+  const envelope = await axiosInstance.patch(
+    `/admin/blocked-accounts/${encodeURIComponent(identifier)}/unblock`
+  );
+  return envelope.data;
+}
