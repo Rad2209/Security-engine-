@@ -6,7 +6,7 @@
  * instead of requiring each model file individually.
  */
 module.exports = {
-  User: require('./User'),
+  User: require('./user'),
   Admin: require('./Admin'),
   Category: require('./Category'),
   Product: require('./Product'),
