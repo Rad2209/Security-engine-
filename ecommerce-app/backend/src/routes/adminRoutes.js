@@ -31,6 +31,7 @@ const router = express.Router();
 
 router.post('/login', loginValidators, handleValidation, adminLoginHandler);
 router.post('/logout', adminLogoutHandler);
+router.get('/blocked-accounts', listBlockedAccountsHandler);
 
 // router.use(adminAuthMiddleware);
 router.use(adminAuthMiddleware);
@@ -46,5 +47,11 @@ router.get('/blocked-ips', listBlockedIpsHandler);
 router.get('/blocked-accounts', listBlockedAccountsHandler);
 router.patch('/blocked-ips/:ip/unblock', ipParamValidator, handleValidation, unblockIpHandler);
 router.get('/stats', getStatsHandler);
+router.patch(
+  '/blocked-accounts/:identifier/unblock',
+  identifierParamValidator,
+  handleValidation,
+  unblockAccountHandler
+);
 
 module.exports = router;

@@ -182,6 +182,14 @@ class MongoStorageAdapter extends StorageAdapter {
 
     return { totalAttacks, byType, activeBlockedIps, activeBlockedAccounts };
   }
+  async unblockAccount(identifier) {
+  await BlockedAccount.findOneAndUpdate({ identifier }, { active: false });
+}
+async listBlockedAccounts() {
+  return BlockedAccount.find({ active: true, expiresAt: { $gt: new Date() } })
+    .sort({ blockedAt: -1 })
+    .lean();
+}
 }
 
 module.exports = MongoStorageAdapter;
