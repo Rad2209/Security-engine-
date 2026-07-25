@@ -10,6 +10,7 @@ jest.mock('../src/models', () => ({
 jest.mock('../src/middleware/securityAdapter', () => ({
   getLogs: jest.fn(),
   listBlockedIps: jest.fn(),
+  listBlockedAccounts: jest.fn(),
   unblockIp: jest.fn(),
   getStats: jest.fn(),
 }));
@@ -39,6 +40,7 @@ describe('Admin dashboard routes require a verified admin session', () => {
     { method: 'get', path: '/api/admin/products' },
     { method: 'get', path: '/api/admin/logs' },
     { method: 'get', path: '/api/admin/blocked-ips' },
+    { method: 'get', path: '/api/admin/blocked-accounts' },
     { method: 'get', path: '/api/admin/stats' },
     { method: 'patch', path: '/api/admin/blocked-ips/1.2.3.4/unblock' },
   ];
@@ -114,7 +116,7 @@ describe('GET /api/admin/logs', () => {
   });
 });
 
-describe('GET /api/admin/blocked-ips and PATCH .../unblock', () => {
+describe('GET /api/admin/blocked-ips and GET /api/admin/blocked-accounts', () => {
   test('lists currently blocked IPs', async () => {
     securityAdapter.listBlockedIps.mockResolvedValue([{ ip: '1.2.3.4', reason: 'too many attempts' }]);
     const token = signAdminToken();
@@ -123,6 +125,16 @@ describe('GET /api/admin/blocked-ips and PATCH .../unblock', () => {
 
     expect(res.status).toBe(200);
     expect(res.body.data).toEqual([{ ip: '1.2.3.4', reason: 'too many attempts' }]);
+  });
+
+  test('lists currently blocked accounts', async () => {
+    securityAdapter.listBlockedAccounts.mockResolvedValue([{ identifier: 'admin@example.com', reason: 'too many attempts' }]);
+    const token = signAdminToken();
+
+    const res = await request(app).get('/api/admin/blocked-accounts').set('Cookie', [`adminToken=${token}`]);
+
+    expect(res.status).toBe(200);
+    expect(res.body.data).toEqual([{ identifier: 'admin@example.com', reason: 'too many attempts' }]);
   });
 
   test('unblocks a specific IP', async () => {

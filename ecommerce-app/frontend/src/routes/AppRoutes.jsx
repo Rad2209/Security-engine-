@@ -17,6 +17,7 @@ import AdminUsersPage from '../pages/admin/AdminUsersPage';
 import AdminProductsPage from '../pages/admin/AdminProductsPage';
 import AdminLogsPage from '../pages/admin/AdminLogsPage';
 import AdminBlockedIpsPage from '../pages/admin/AdminBlockedIpsPage';
+import AdminBlockedAccountsPage from '../pages/admin/AdminBlockedAccountsPage';
 
 function NotFound() {
   return (
@@ -107,6 +108,14 @@ function AppRoutes() {
         element={
           <AdminRoute>
             <AdminBlockedIpsPage />
+          </AdminRoute>
+        }
+      />
+      <Route
+        path="/admin/blocked-accounts"
+        element={
+          <AdminRoute>
+            <AdminBlockedAccountsPage />
           </AdminRoute>
         }
       />

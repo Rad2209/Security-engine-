@@ -104,6 +104,14 @@ class StorageAdapter {
 
   /**
    * EXTENDED / OPTIONAL — same reasoning as listBlockedIps() above.
+   * @returns {Promise<Array<{ identifier: string, reason: string, blockedAt: Date, expiresAt: Date }>>}
+   */
+  async listBlockedAccounts() {
+    throw new Error('StorageAdapter.listBlockedAccounts() not implemented');
+  }
+
+  /**
+   * EXTENDED / OPTIONAL — same reasoning as listBlockedIps() above.
    * @returns {Promise<{ totalAttacks: number, byType: object, activeBlockedIps: number, activeBlockedAccounts: number }>}
    */
   async getStats() {

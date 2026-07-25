@@ -160,6 +160,12 @@ class MongoStorageAdapter extends StorageAdapter {
       .lean();
   }
 
+  async listBlockedAccounts() {
+    return BlockedAccount.find({ active: true, expiresAt: { $gt: new Date() } })
+      .sort({ blockedAt: -1 })
+      .lean();
+  }
+
   async getStats() {
     const [byTypeAgg, activeBlockedIps, activeBlockedAccounts] = await Promise.all([
       AttackLog.aggregate([{ $group: { _id: '$type', count: { $sum: 1 } } }]),

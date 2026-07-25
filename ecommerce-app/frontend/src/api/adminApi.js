@@ -35,6 +35,12 @@ export async function listBlockedIps() {
   return envelope.data;
 }
 
+/** @returns {Promise<Array<{ identifier: string, reason: string, blockedAt: string, expiresAt: string }>>} */
+export async function listBlockedAccounts() {
+  const envelope = await axiosInstance.get('/admin/blocked-accounts');
+  return envelope.data;
+}
+
 /**
  * @param {string} ip
  * @returns {Promise<{ message: string }>}

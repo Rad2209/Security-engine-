@@ -5,6 +5,7 @@ const { listAllProductsHandler } = require('../controllers/adminProductControlle
 const {
   listLogsHandler,
   listBlockedIpsHandler,
+  listBlockedAccountsHandler,
   unblockIpHandler,
   getStatsHandler,
 } = require('../controllers/adminSecurityController');
@@ -42,6 +43,7 @@ router.get('/users', listUsersHandler);
 router.get('/products', listAllProductsHandler);
 router.get('/logs', listLogsValidators, handleValidation, listLogsHandler);
 router.get('/blocked-ips', listBlockedIpsHandler);
+router.get('/blocked-accounts', listBlockedAccountsHandler);
 router.patch('/blocked-ips/:ip/unblock', ipParamValidator, handleValidation, unblockIpHandler);
 router.get('/stats', getStatsHandler);
 

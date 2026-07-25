@@ -20,6 +20,15 @@ async function listBlockedIpsHandler(req, res, next) {
   }
 }
 
+async function listBlockedAccountsHandler(req, res, next) {
+  try {
+    const blockedAccounts = await adminSecurityService.listBlockedAccounts();
+    return success(res, blockedAccounts);
+  } catch (err) {
+    return next(err);
+  }
+}
+
 async function unblockIpHandler(req, res, next) {
   try {
     await adminSecurityService.unblockIp(req.params.ip);
@@ -38,4 +47,10 @@ async function getStatsHandler(req, res, next) {
   }
 }
 
-module.exports = { listLogsHandler, listBlockedIpsHandler, unblockIpHandler, getStatsHandler };
+module.exports = {
+  listLogsHandler,
+  listBlockedIpsHandler,
+  listBlockedAccountsHandler,
+  unblockIpHandler,
+  getStatsHandler,
+};
