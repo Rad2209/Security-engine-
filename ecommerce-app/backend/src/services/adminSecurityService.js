@@ -33,6 +33,49 @@
 
 // module.exports = { listAttackLogs, listBlockedIps, unblockIp, getSecurityStats };
 
+// const securityAdapter = require('../middleware/securityAdapter');
+
+// async function listAttackLogs(filters) {
+//   return securityAdapter.getLogs(filters);
+// }
+
+// async function listBlockedIps() {
+//   return securityAdapter.listBlockedIps();
+// }
+
+// async function listBlockedAccounts() {
+//   return securityAdapter.listBlockedAccounts();
+// }
+
+// async function unblockIp(ip) {
+//   return securityAdapter.unblockIp(ip);
+// }
+
+// async function listBlockedAccounts() {
+//   return securityAdapter.listBlockedAccounts();
+// }
+
+// async function unblockAccount(identifier) {
+//   return securityAdapter.unblockAccount(identifier);
+// }
+
+// async function getSecurityStats() {
+//   return securityAdapter.getStats();
+// }
+
+// <<<<<<< HEAD
+// module.exports = { listAttackLogs, listBlockedIps, listBlockedAccounts, unblockIp, getSecurityStats };
+// =======
+// module.exports = {
+//   listAttackLogs,
+//   listBlockedIps,
+//   unblockIp,
+//   listBlockedAccounts,
+//   unblockAccount,
+//   getSecurityStats,
+// };
+// >>>>>>> b423c980dde39d9d5205a0adcac29b584bbc35c5
+
 const securityAdapter = require('../middleware/securityAdapter');
 
 async function listAttackLogs(filters) {
@@ -51,10 +94,6 @@ async function unblockIp(ip) {
   return securityAdapter.unblockIp(ip);
 }
 
-async function listBlockedAccounts() {
-  return securityAdapter.listBlockedAccounts();
-}
-
 async function unblockAccount(identifier) {
   return securityAdapter.unblockAccount(identifier);
 }
@@ -63,15 +102,11 @@ async function getSecurityStats() {
   return securityAdapter.getStats();
 }
 
-<<<<<<< HEAD
-module.exports = { listAttackLogs, listBlockedIps, listBlockedAccounts, unblockIp, getSecurityStats };
-=======
 module.exports = {
   listAttackLogs,
   listBlockedIps,
-  unblockIp,
   listBlockedAccounts,
+  unblockIp,
   unblockAccount,
   getSecurityStats,
 };
->>>>>>> b423c980dde39d9d5205a0adcac29b584bbc35c5
