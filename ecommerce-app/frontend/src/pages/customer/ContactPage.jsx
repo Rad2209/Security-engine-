@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
-import * as contactApi from '../../api/contactApi';
+// contact page: no newsletter here (newsletter shown only on homepage)
 
 function ContactPage() {
   const [name, setName] = useState('');
@@ -9,9 +9,6 @@ function ContactPage() {
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState('');
   const [error, setError] = useState('');
-  const [subEmail, setSubEmail] = useState('');
-  const [subStatus, setSubStatus] = useState('');
-  const [subError, setSubError] = useState('');
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -29,24 +26,12 @@ function ContactPage() {
     }
   }
 
-  async function handleSubscribe(e) {
-    e.preventDefault();
-    setSubStatus('');
-    setSubError('');
-
-    try {
-      await contactApi.subscribe({ email: subEmail });
-      setSubStatus('Subscribed successfully.');
-      setSubEmail('');
-    } catch (err) {
-      setSubError(err.response?.data?.error?.message || 'Failed to subscribe. Please try again.');
-    }
-  }
+  
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-20">
-      <div className="grid gap-12 lg:grid-cols-[1.2fr_0.8fr]">
-        <section className="rounded-sm border border-steel-500/40 bg-steel-900/80 p-8">
+      <div className="flex justify-center">
+        <section className="w-full max-w-2xl rounded-sm border border-steel-500/40 bg-steel-900/80 p-8">
           <h1 className="font-display text-3xl text-mist-100">Contact Us</h1>
           <p className="mt-4 max-w-xl font-body text-sm text-mist-100/70">
             Have a question about the collection, a special order, or the care guide? Send us a note.
@@ -75,25 +60,6 @@ function ContactPage() {
           </form>
         </section>
 
-        {/* <section className="rounded-sm border border-steel-500/40 bg-steel-900/80 p-8">
-          <h2 className="font-display text-2xl text-mist-100">Subscribe</h2>
-          <p className="mt-4 font-body text-sm text-mist-100/70">
-            Get product drops and special news from Escapement. No spam, just curated updates.
-          </p>
-
-          <form className="mt-6 space-y-4" onSubmit={handleSubscribe}>
-            <Input
-              id="subscribe-email"
-              label="Email"
-              type="email"
-              value={subEmail}
-              onChange={(e) => setSubEmail(e.target.value)}
-            />
-            {subStatus && <p className="font-mono text-sm text-emerald-400">{subStatus}</p>}
-            {subError && <p className="font-mono text-sm text-tick-red">{subError}</p>}
-            <Button type="submit">Subscribe</Button>
-          </form>
-        </section> */}
       </div>
     </div>
   );

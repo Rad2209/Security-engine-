@@ -89,12 +89,17 @@ import * as productApi from '../../api/productApi';
 import * as categoryApi from '../../api/categoryApi';
 import ProductGrid from '../../components/product/ProductGrid';
 import Button from '../../components/ui/Button';
+import * as contactApi from '../../api/contactApi';
 
 function HomePage() {
   const [featured, setFeatured] = useState([]);
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
+  const [email, setEmail] = useState('');
+  const [statusMsg, setStatusMsg] = useState('');
+  const [subError, setSubError] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -184,6 +189,50 @@ function HomePage() {
         ) : (
           <ProductGrid products={featured} />
         )}
+      </section>
+
+      <section className="mx-auto max-w-6xl px-6 pb-12">
+        <div className="rounded-sm border border-steel-500/40 bg-steel-900/80 p-6">
+          <p className="font-display text-sm uppercase tracking-wide text-mist-100">Subscribe</p>
+          <p className="mt-3 font-body text-sm text-mist-100/70">Join the list for product drops, news, and support updates.</p>
+          <form
+            className="mt-6 space-y-3 max-w-md"
+            onSubmit={async (e) => {
+              e.preventDefault();
+              setStatusMsg('');
+              setSubError('');
+              setSubmitting(true);
+              try {
+                await contactApi.subscribe({ email });
+                setStatusMsg('Subscribed successfully.');
+                setEmail('');
+              } catch (err) {
+                setSubError(err.response?.data?.error?.message || 'Failed to subscribe. Please try again.');
+              } finally {
+                setSubmitting(false);
+              }
+            }}
+          >
+            <label htmlFor="home-subscribe-email" className="font-body text-sm text-mist-100/80">Email</label>
+            <input
+              id="home-subscribe-email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full rounded-sm border border-steel-500/60 bg-steel-800 px-3 py-2 font-body text-sm text-mist-100 placeholder:text-mist-100/30 focus:border-brass-400"
+              placeholder="you@example.com"
+            />
+            {statusMsg && <p className="font-mono text-xs text-emerald-400">{statusMsg}</p>}
+            {subError && <p className="font-mono text-xs text-tick-red">{subError}</p>}
+            <button
+              type="submit"
+              disabled={submitting}
+              className="inline-flex w-full items-center justify-center rounded-sm bg-brass-400 px-4 py-2 text-sm font-medium text-ink-950 transition-colors hover:bg-brass-400/90 disabled:opacity-50"
+            >
+              {submitting ? 'Subscribing…' : 'Subscribe'}
+            </button>
+          </form>
+        </div>
       </section>
     </div>
   );
