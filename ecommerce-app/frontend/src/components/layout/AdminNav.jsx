@@ -54,7 +54,7 @@ function AdminNav() {
           </nav>
         </div>
         <div className="flex items-center gap-4">
-          {admin?.name && <span className="font-mono text-xs text-mist-100/50">{admin.name}</span>}
+          <span className="font-mono text-xs text-mist-100/50">Soliu Ridwan (Admin)</span>
           <button
             type="button"
             onClick={handleLogout}

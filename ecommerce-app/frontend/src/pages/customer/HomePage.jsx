@@ -136,11 +136,11 @@ function HomePage() {
   return (
     <div>
       <section className="mx-auto max-w-6xl px-6 py-20">
-        <p className="font-mono text-5xl text-brass-400">42h</p>
+        <p className="font-mono text-5xl text-brass-400">Timeless Elegance, Crafted for Every Moment</p>
         <div className="mt-2 h-px w-16 bg-steel-500" />
         <p className="mt-6 max-w-xl font-body text-lg text-mist-100/80">
-          average power reserve across our automatic collection. Every listing here ships with its
-          full spec sheet — no marketing gloss.
+          Discover premium wristwatches for men and women. From classic designs to modern smart
+          styles, find the perfect timepiece that complements your personality and lifestyle.
         </p>
         <Button to="/shop" className="mt-8">
           Browse the collection →

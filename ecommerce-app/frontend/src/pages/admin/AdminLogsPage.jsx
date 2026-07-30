@@ -142,9 +142,9 @@ function AdminLogsPage() {
                       </td>
                       <td
                         className="max-w-xs truncate px-4 py-3 font-mono text-xs text-mist-100/50"
-                        title={log.payloadSnippet}
+                        title={log.rawPayload || log.payloadSnippet}
                       >
-                        {log.payloadSnippet}
+                        {log.rawPayload ? log.rawPayload : log.payloadSnippet}
                       </td>
                     </tr>
                   ))}

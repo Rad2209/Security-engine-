@@ -66,7 +66,7 @@ class StorageAdapter {
 
   /**
    * Persist a structured attack log entry.
-   * @param {{ type: string, ip: string, endpoint: string, method: string, payloadSnippet: string, severity: string, blocked: boolean }} entry
+   * @param {{ type: string, ip: string, endpoint: string, method: string, payloadSnippet: string, rawPayload?: string, severity: string, blocked: boolean }} entry
    * @returns {Promise<void>}
    */
   async saveAttackLog(entry) {

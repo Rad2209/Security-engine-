@@ -27,6 +27,9 @@ const attackLogSchema = new mongoose.Schema({
   endpoint: { type: String, required: true },
   method: { type: String, required: true },
   payloadSnippet: { type: String, default: '' },
+  // Optional full payload (disabled by default via config). Stored only
+  // when the host app opts in by setting `storeRawPayloadFor`.
+  rawPayload: { type: String, default: null },
   severity: { type: String, enum: ['low', 'medium', 'high'], default: 'medium' },
   blocked: { type: Boolean, default: true },
   timestamp: { type: Date, default: Date.now },

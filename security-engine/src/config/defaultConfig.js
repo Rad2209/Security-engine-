@@ -33,4 +33,9 @@ module.exports = {
   // real-time notifications (e.g. pushing to an admin dashboard via socket).
   // Signature: (attackLogEntry) => void
   onBlock: null,
+  // Endpoints for which the engine should store the full raw payload
+  // in addition to the truncated `payloadSnippet`. Empty array by default
+  // to avoid persisting sensitive data unless the host app explicitly opts
+  // in via SecurityEngine.init({ storeRawPayloadFor: ['/api/contact'] }).
+  storeRawPayloadFor: [],
 };

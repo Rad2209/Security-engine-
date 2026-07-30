@@ -149,7 +149,8 @@ class SecurityEngine {
                 blocked: true,
               },
               storageAdapter,
-              config.onBlock
+              config.onBlock,
+              config
             );
             return ResponseHandler.block(res, verdict);
           }
@@ -192,7 +193,8 @@ class SecurityEngine {
               blocked: true,
             },
             storageAdapter,
-            config.onBlock
+            config.onBlock,
+            config
           );
           return ResponseHandler.block(res, { reason: 'sql_injection_detected' });
         }
@@ -209,7 +211,8 @@ class SecurityEngine {
               blocked: true,
             },
             storageAdapter,
-            config.onBlock
+            config.onBlock,
+            config
           );
           return ResponseHandler.block(res, { reason: 'xss_detected' });
         }

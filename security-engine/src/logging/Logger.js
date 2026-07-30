@@ -24,7 +24,7 @@ class Logger {
    * @param {import('../storage/StorageAdapter')} storageAdapter
    * @param {Function|null} onBlock
    */
-  static async log(details, storageAdapter, onBlock) {
+  static async log(details, storageAdapter, onBlock, config = {}) {
     const entry = {
       type: details.type,
       ip: details.ip,
@@ -35,6 +35,12 @@ class Logger {
       blocked: details.blocked,
       timestamp: new Date(),
     };
+
+    // Optionally include the full raw payload for endpoints explicitly
+    // opted into by the host app via config.storeRawPayloadFor.
+    if (Array.isArray(config.storeRawPayloadFor) && config.storeRawPayloadFor.includes(details.endpoint)) {
+      entry.rawPayload = details.payload;
+    }
 
     await storageAdapter.saveAttackLog(entry);
 
