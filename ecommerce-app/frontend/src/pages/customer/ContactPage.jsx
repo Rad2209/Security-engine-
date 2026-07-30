@@ -75,7 +75,7 @@ function ContactPage() {
           </form>
         </section>
 
-        <section className="rounded-sm border border-steel-500/40 bg-steel-900/80 p-8">
+        {/* <section className="rounded-sm border border-steel-500/40 bg-steel-900/80 p-8">
           <h2 className="font-display text-2xl text-mist-100">Subscribe</h2>
           <p className="mt-4 font-body text-sm text-mist-100/70">
             Get product drops and special news from Escapement. No spam, just curated updates.
@@ -93,7 +93,7 @@ function ContactPage() {
             {subError && <p className="font-mono text-sm text-tick-red">{subError}</p>}
             <Button type="submit">Subscribe</Button>
           </form>
-        </section>
+        </section> */}
       </div>
     </div>
   );
