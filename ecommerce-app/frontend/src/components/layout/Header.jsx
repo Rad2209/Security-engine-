@@ -41,6 +41,14 @@ function Header() {
           >
             Shop
           </NavLink>
+          <NavLink
+            to="/contact"
+            className={({ isActive }) =>
+              `transition-colors hover:text-mist-100 ${isActive ? 'text-brass-400' : ''}`
+            }
+          >
+            Contact
+          </NavLink>
           {user && (
             <NavLink
               to="/orders"

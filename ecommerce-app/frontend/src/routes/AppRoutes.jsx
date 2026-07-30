@@ -10,6 +10,7 @@ import CheckoutSuccessPage from '../pages/customer/CheckoutSuccessPage';
 import OrderHistoryPage from '../pages/customer/OrderHistoryPage';
 import LoginPage from '../pages/customer/LoginPage';
 import RegisterPage from '../pages/customer/RegisterPage';
+import ContactPage from '../pages/customer/ContactPage';
 
 import AdminLoginPage from '../pages/admin/AdminLoginPage';
 import AdminDashboardPage from '../pages/admin/AdminDashboardPage';
@@ -40,6 +41,7 @@ function AppRoutes() {
       <Route path="/products/:id" element={<ProductDetailPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/contact" element={<ContactPage />} />
 
       {/* Customer — protected (requires the "token" cookie / logged-in customer) */}
       <Route

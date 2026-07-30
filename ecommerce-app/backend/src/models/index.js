@@ -13,4 +13,6 @@ module.exports = {
   Review: require('./Review'),
   Cart: require('./Cart'),
   Order: require('./Order'),
+  ContactMessage: require('./ContactMessage'),
+  Subscriber: require('./Subscriber'),
 };
