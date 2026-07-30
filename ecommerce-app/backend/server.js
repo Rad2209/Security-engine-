@@ -24,7 +24,7 @@ async function start() {
     // Detector threshold overrides can be added here later, e.g.:
     // detectors: { bruteForce: { maxAttemptsPerAccount: 5 } }
     // Persist full raw payloads for contact endpoint attacks (opt-in).
-    ,storeRawPayloadFor: ['/api/contact']
+    storeRawPayloadFor: ['/api/contact']
   });
 
   const app = createApp(securityMiddleware);
