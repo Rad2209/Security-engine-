@@ -193,10 +193,9 @@ function HomePage() {
 
       <section className="mx-auto max-w-6xl px-6 pb-12">
         <div className="rounded-sm border border-steel-500/40 bg-steel-900/80 p-6">
-          <p className="font-display text-sm uppercase tracking-wide text-mist-100">Subscribe</p>
-          <p className="mt-3 font-body text-sm text-mist-100/70">Join the list for product drops, news, and support updates.</p>
+          <p className="font-display text-sm uppercase tracking-wide text-mist-100">Subscribe to our emails</p>
           <form
-            className="mt-6 space-y-3 max-w-md"
+            className="mt-6 max-w-3xl"
             onSubmit={async (e) => {
               e.preventDefault();
               setStatusMsg('');
@@ -213,24 +212,32 @@ function HomePage() {
               }
             }}
           >
-            <label htmlFor="home-subscribe-email" className="font-body text-sm text-mist-100/80">Email</label>
-            <input
-              id="home-subscribe-email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-sm border border-steel-500/60 bg-steel-800 px-3 py-2 font-body text-sm text-mist-100 placeholder:text-mist-100/30 focus:border-brass-400"
-              placeholder="you@example.com"
-            />
-            {statusMsg && <p className="font-mono text-xs text-emerald-400">{statusMsg}</p>}
-            {subError && <p className="font-mono text-xs text-tick-red">{subError}</p>}
-            <button
-              type="submit"
-              disabled={submitting}
-              className="inline-flex w-full items-center justify-center rounded-sm bg-brass-400 px-4 py-2 text-sm font-medium text-ink-950 transition-colors hover:bg-brass-400/90 disabled:opacity-50"
-            >
-              {submitting ? 'Subscribing…' : 'Subscribe'}
-            </button>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+              <label htmlFor="home-subscribe-email" className="sr-only">
+                Email
+              </label>
+              <div className="flex w-full items-center overflow-hidden rounded-sm border border-steel-500/60 bg-ink-950">
+                <input
+                  id="home-subscribe-email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="flex-1 border-none bg-transparent px-4 py-4 text-sm text-mist-100 placeholder:text-mist-100/40 focus:outline-none"
+                  placeholder="Email"
+                />
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="inline-flex h-14 w-14 items-center justify-center bg-brass-400 text-ink-950 transition-colors hover:bg-brass-400/90 disabled:opacity-50"
+                >
+                  →
+                </button>
+              </div>
+            </div>
+            <div className="mt-4 flex flex-col gap-2">
+              {statusMsg && <p className="font-mono text-xs text-emerald-400">{statusMsg}</p>}
+              {subError && <p className="font-mono text-xs text-tick-red">{subError}</p>}
+            </div>
           </form>
         </div>
       </section>
