@@ -6,13 +6,6 @@ import { useAuth } from '../../context/AuthContext';
 //   { to: '/admin/users', label: 'Users' },
 //   { to: '/admin/products', label: 'Products' },
 //   { to: '/admin/logs', label: 'Attack Logs' },
-// <<<<<<< HEAD
-//   { to: '/admin/blocked-ips', label: 'Blocked IPs' },
-//   { to: '/admin/blocked-accounts', label: 'Blocked Accounts' },
-// =======
-//   // { to: '/admin/blocked-ips', label: 'Blocked IPs' },
-//   { to: '/admin/blocked-ips', label: 'Blocked' },
-// >>>>>>> b423c980dde39d9d5205a0adcac29b584bbc35c5
 // ];
 const LINKS = [
   { to: '/admin', label: 'Dashboard', end: true },

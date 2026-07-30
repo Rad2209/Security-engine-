@@ -55,25 +55,6 @@
 //   }
 // }
 
-// <<<<<<< HEAD
-// module.exports = {
-//   listLogsHandler,
-//   listBlockedIpsHandler,
-//   listBlockedAccountsHandler,
-//   unblockIpHandler,
-//   getStatsHandler,
-// };
-// =======
-// async function unblockAccountHandler(req, res, next) {
-//   try {
-//     await adminSecurityService.unblockAccount(req.params.identifier);
-//     return success(res, { message: `Account ${req.params.identifier} unblocked` });
-//   } catch (err) {
-//     return next(err);
-//   }
-// }
-// module.exports = { listLogsHandler, listBlockedIpsHandler, unblockIpHandler, getStatsHandler, listBlockedAccountsHandler, unblockAccountHandler  };
-// >>>>>>> b423c980dde39d9d5205a0adcac29b584bbc35c5
 
 
 const adminSecurityService = require('../services/adminSecurityService');
