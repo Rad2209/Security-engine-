@@ -15,7 +15,7 @@ const SALT_ROUNDS = 10;
  * script is the only way an admin account gets created.
  *
  * Usage:
- *   node scripts/seedAdmin.js "Admin Name" admin@example.com SomeStrongPassword123
+ *   node scripts/seedAdmin.js "Admin Name" admin@security-engine.vercel.app SomeStrongPassword123
  *
  * Safe to re-run: if an admin with that email already exists, it exits
  * without creating a duplicate rather than erroring or overwriting.

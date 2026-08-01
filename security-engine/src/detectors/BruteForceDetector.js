@@ -80,11 +80,11 @@ class BruteForceDetector {
     ]);
 
     if (ipBlocked) {
-      return { blocked: true, reason: 'ip_blocked' };
+      return { blocked: true, reason: 'ip_blocked', blockDurationMinutes: config.blockDurationMinutes };
     }
 
     if (accountBlocked) {
-      return { blocked: true, reason: 'account_blocked' };
+      return { blocked: true, reason: 'account_blocked', blockDurationMinutes: config.blockDurationMinutes };
     }
 
     const { ipCount, accountCount } = await storageAdapter.countRecentAttempts({
@@ -95,12 +95,12 @@ class BruteForceDetector {
 
     if (ipCount >= config.maxAttemptsPerIp) {
       await this._blockIp(ip, config, storageAdapter);
-      return { blocked: true, reason: 'ip_threshold_exceeded' };
+      return { blocked: true, reason: 'ip_threshold_exceeded', blockDurationMinutes: config.blockDurationMinutes };
     }
 
     if (identifier && accountCount >= config.maxAttemptsPerAccount) {
       await this._blockAccount(identifier, config, storageAdapter);
-      return { blocked: true, reason: 'account_threshold_exceeded' };
+      return { blocked: true, reason: 'account_threshold_exceeded', blockDurationMinutes: config.blockDurationMinutes };
     }
 
     return { blocked: false, reason: null };

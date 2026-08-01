@@ -30,6 +30,7 @@ export default {
         // that Escapement is an engineering brand, not a jewelry brand.
         display: ['"Space Grotesk"', 'sans-serif'],
         body: ['Inter', 'sans-serif'],
+        cursive: ['"Great Vibes"', 'cursive'],
         // Used for EVERY real measurement (42mm, 100m, 42h, 28,800vph) —
         // consistently, everywhere a spec appears. Not a style choice, a rule.
         mono: ['"IBM Plex Mono"', 'monospace'],

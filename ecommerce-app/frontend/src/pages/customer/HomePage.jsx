@@ -136,7 +136,7 @@ function HomePage() {
   return (
     <div>
       <section className="mx-auto max-w-6xl px-6 py-20">
-        <p className="font-mono text-5xl text-brass-400">Timeless Elegance, Crafted for Every Moment</p>
+        <p className="font-cursive text-6xl tracking-tight text-brass-400 md:text-7xl">TIMELESS</p>
         <div className="mt-2 h-px w-16 bg-steel-500" />
         <p className="mt-6 max-w-xl font-body text-lg text-mist-100/80">
           Discover premium wristwatches for men and women. From classic designs to modern smart
@@ -216,19 +216,19 @@ function HomePage() {
               <label htmlFor="home-subscribe-email" className="sr-only">
                 Email
               </label>
-              <div className="flex w-full items-center overflow-hidden rounded-sm border border-steel-500/60 bg-ink-950">
+              <div className="flex w-full items-center overflow-hidden rounded-md border border-steel-500/70 bg-ink-950 shadow-sm transition-colors focus-within:border-brass-400/70">
                 <input
                   id="home-subscribe-email"
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 border-none bg-transparent px-4 py-4 text-sm text-mist-100 placeholder:text-mist-100/40 focus:outline-none"
+                  className="flex-1 border-none bg-transparent px-3 py-2.5 text-sm text-mist-100 placeholder:text-mist-100/40 focus:outline-none"
                   placeholder="Email"
                 />
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="inline-flex h-14 w-14 items-center justify-center bg-brass-400 text-ink-950 transition-colors hover:bg-brass-400/90 disabled:opacity-50"
+                  className="inline-flex h-10 w-10 items-center justify-center bg-brass-400 text-ink-950 transition-colors hover:bg-brass-400/90 disabled:opacity-50"
                 >
                   →
                 </button>

@@ -44,7 +44,7 @@ describe('Admin model', () => {
   });
 
   test('accepts a valid document and defaults role to admin', () => {
-    const admin = new Admin({ name: 'Root Admin', email: 'admin@example.com', passwordHash: 'hash' });
+    const admin = new Admin({ name: 'Root Admin', email: 'admin@security-engine.vercel.app', passwordHash: 'hash' });
     const err = admin.validateSync();
     expect(err).toBeUndefined();
     expect(admin.role).toBe('admin');

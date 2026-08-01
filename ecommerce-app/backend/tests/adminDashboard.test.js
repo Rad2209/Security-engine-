@@ -128,13 +128,13 @@ describe('GET /api/admin/blocked-ips and GET /api/admin/blocked-accounts', () =>
   });
 
   test('lists currently blocked accounts', async () => {
-    securityAdapter.listBlockedAccounts.mockResolvedValue([{ identifier: 'admin@example.com', reason: 'too many attempts' }]);
+    securityAdapter.listBlockedAccounts.mockResolvedValue([{ identifier: 'admin@security-engine.vercel.app', reason: 'too many attempts' }]);
     const token = signAdminToken();
 
     const res = await request(app).get('/api/admin/blocked-accounts').set('Cookie', [`adminToken=${token}`]);
 
     expect(res.status).toBe(200);
-    expect(res.body.data).toEqual([{ identifier: 'admin@example.com', reason: 'too many attempts' }]);
+    expect(res.body.data).toEqual([{ identifier: 'admin@security-engine.vercel.app', reason: 'too many attempts' }]);
   });
 
   test('unblocks a specific IP', async () => {
