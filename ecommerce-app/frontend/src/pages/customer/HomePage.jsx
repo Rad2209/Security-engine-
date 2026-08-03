@@ -136,7 +136,9 @@ function HomePage() {
   return (
     <div>
       <section className="mx-auto max-w-6xl px-6 py-20">
-        <p className="font-cursive text-6xl tracking-tight text-brass-400 md:text-7xl">TIMELESS</p>
+        <p className="font-display text-6xl uppercase tracking-tight text-brass-400 md:text-7xl">
+          TIMELESS
+        </p>
         <div className="mt-2 h-px w-16 bg-steel-500" />
         <p className="mt-6 max-w-xl font-body text-lg text-mist-100/80">
           Discover premium wristwatches for men and women. From classic designs to modern smart
