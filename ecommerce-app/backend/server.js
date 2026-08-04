@@ -16,6 +16,47 @@ const securityAdapter = require('./src/middleware/securityAdapter');
  * config/*, so this file is easy to read top-to-bottom as "what happens on
  * boot".
  */
+function startServer(app, requestedPort = env.PORT) {
+  return new Promise((resolve, reject) => {
+    const basePort = Number.parseInt(requestedPort, 10);
+
+    if (!Number.isInteger(basePort) || basePort < 0 || basePort > 65535) {
+      reject(new Error(`Invalid port value: ${requestedPort}`));
+      return;
+    }
+
+    let currentPort = basePort;
+    let attempts = 0;
+
+    const attemptListen = () => {
+      const server = app.listen(currentPort, () => {
+        console.log(`Server listening on port ${currentPort} [${env.NODE_ENV}]`);
+        resolve(server);
+      });
+
+      server.on('error', (err) => {
+        if (err.code === 'EADDRINUSE') {
+          attempts += 1;
+
+          if (attempts > 20) {
+            reject(new Error(`Unable to find an open port after ${attempts} attempts.`));
+            return;
+          }
+
+          currentPort += 1;
+          console.warn(`Port ${currentPort - 1} is busy; retrying on ${currentPort}.`);
+          server.close(() => attemptListen());
+          return;
+        }
+
+        reject(err);
+      });
+    };
+
+    attemptListen();
+  });
+}
+
 async function start() {
   await connectDB();
 
@@ -28,13 +69,14 @@ async function start() {
   });
 
   const app = createApp(securityMiddleware);
+  return startServer(app, env.PORT);
+}
 
-  app.listen(env.PORT, () => {
-    console.log(`Server listening on port ${env.PORT} [${env.NODE_ENV}]`);
+if (require.main === module) {
+  start().catch((err) => {
+    console.error('Failed to start server:', err);
+    process.exit(1);
   });
 }
 
-start().catch((err) => {
-  console.error('Failed to start server:', err);
-  process.exit(1);
-});
+module.exports = { start, startServer };

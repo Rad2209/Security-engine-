@@ -4,9 +4,11 @@ process.env.MONGO_URI = 'mongodb://fake-host-for-tests/ecommerce';
 process.env.JWT_SECRET = 'test-secret-not-for-production';
 process.env.FRONTEND_URL = 'http://localhost:5173';
 
+const http = require('http');
 const request = require('supertest');
 const createApp = require('../src/app');
 const SecurityEngine = require('security-engine');
+const { startServer } = require('../server');
 
 describe('App wiring — basic middleware chain', () => {
   test('the root path returns a simple status response', async () => {
@@ -48,6 +50,29 @@ describe('App wiring — basic middleware chain', () => {
 
     expect(res.headers['access-control-allow-origin']).toBe('http://localhost:5173');
     expect(res.headers['access-control-allow-credentials']).toBe('true');
+  });
+});
+
+describe('Server bootstrap — port reuse recovery', () => {
+  test('falls back to the next open port when the requested port is already occupied', async () => {
+    const allowAll = (req, res, next) => next();
+    const occupiedServer = http.createServer((req, res) => res.end('occupied'));
+
+    await new Promise((resolve) => occupiedServer.listen(0, resolve));
+    const occupiedPort = occupiedServer.address().port;
+
+    const server = await startServer(createApp(allowAll), occupiedPort);
+    const { port } = server.address();
+
+    expect(port).not.toBe(occupiedPort);
+
+    await new Promise((resolve, reject) => {
+      server.close((err) => (err ? reject(err) : resolve()));
+    });
+
+    await new Promise((resolve, reject) => {
+      occupiedServer.close((err) => (err ? reject(err) : resolve()));
+    });
   });
 });
 

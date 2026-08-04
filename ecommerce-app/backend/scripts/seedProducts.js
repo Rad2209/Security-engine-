@@ -11,8 +11,9 @@ const { Category, Product } = require('../src/models');
  * only mechanism that puts product data into the database. Same pattern
  * as seedAdmin.js.
  *
- * Idempotent: matches on `slug` (categories) and `name` (products), so
- * re-running this after adding new entries won't duplicate existing ones.
+ * Reset-and-reload: clears the existing product collection first, then
+ * repopulates it with the current catalog so the seed script always reflects
+ * the latest product list.
  *
  * Usage:
  *   node scripts/seedProducts.js
@@ -83,16 +84,16 @@ async function seed() {
     console.log(`Category ready: ${existing.name}`);
   }
 
-  for (const { categorySlug, ...productData } of PRODUCTS) {
-    const categoryId = categoryIdBySlug[categorySlug];
+  await Product.deleteMany({});
+  console.log('Cleared existing products from the catalog.');
 
-    const result = await Product.findOneAndUpdate(
-      { name: productData.name },
-      { $setOnInsert: { ...productData, categoryId } },
-      { upsert: true, new: true }
-    );
-    console.log(`Product ready: ${result.name}`);
-  }
+  const docsToInsert = PRODUCTS.map(({ categorySlug, ...productData }) => ({
+    ...productData,
+    categoryId: categoryIdBySlug[categorySlug],
+  }));
+
+  const insertedProducts = await Product.insertMany(docsToInsert);
+  console.log(`Inserted ${insertedProducts.length} fresh products.`);
 
   console.log(`\nDone. ${CATEGORIES.length} categories, ${PRODUCTS.length} products.`);
   await require('mongoose').disconnect();
