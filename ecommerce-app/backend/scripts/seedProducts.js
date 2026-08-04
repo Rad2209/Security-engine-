@@ -1,6 +1,5 @@
 require('dotenv').config();
-const mongoose = require('mongoose');
-const env = require('../src/config/env');
+const connectDB = require('../src/config/db');
 const { Category, Product } = require('../src/models');
 
 /**
@@ -20,10 +19,7 @@ const { Category, Product } = require('../src/models');
  */
 
 const CATEGORIES = [
-  { name: 'Watches', slug: 'watches', description: 'Automatic, hand-wound, and quartz timepieces.' },
-  { name: 'Straps & Bracelets', slug: 'straps-bracelets', description: 'Leather, metal, and rubber straps.' },
-  { name: 'Winders & Storage', slug: 'winders-storage', description: 'Watch winders, cases, and travel rolls.' },
-  { name: 'Tools & Care', slug: 'tools-care', description: 'Spring bar tools, case openers, and care kits.' },
+  { name: 'Watches', slug: 'watches', description: 'Premium timepieces with modern style.' },
 ];
 
 // categorySlug ties each product to a category above without needing real
@@ -31,100 +27,48 @@ const CATEGORIES = [
 const PRODUCTS = [
   {
     categorySlug: 'watches',
-    name: 'Meridian Field 40',
-    description:
-      'Automatic field watch. 40mm stainless case, 100m water resistance, 42h power reserve, 28,800vph, sapphire crystal. 21 jewels.',
+    name: 'Classic Chronograph',
+    description: 'Sleek stainless steel chronograph with a polished bezel and luminous dial.',
     price: 420,
     stock: 18,
-    images: ['https://picsum.photos/seed/meridian-field-40/700/700'],
+    images: ['https://www-konga-com-res.cloudinary.com/image/upload/f_auto,q_auto,w_400,c_limit/media/catalog/product/O/R/61668_1785289696.jpg'],
   },
   {
     categorySlug: 'watches',
-    name: 'Traverse GMT',
-    description:
-      'Automatic GMT. 42mm case, 100m water resistance, 50h power reserve, 28,800vph, independently adjustable 24h hand. 26 jewels.',
+    name: 'Luxe GMT Watch',
+    description: 'Bold GMT design with a refined bracelet and clear dual-time display.',
     price: 650,
     stock: 12,
-    images: ['https://picsum.photos/seed/traverse-gmt/700/700'],
+    images: ['https://www-konga-com-res.cloudinary.com/image/upload/f_auto,q_auto,w_400,c_limit/media/catalog/product/H/W/239986_1785095195.jpg'],
   },
   {
     categorySlug: 'watches',
-    name: 'Depth Chrono 44',
-    description:
-      'Quartz dive chronograph. 44mm case, 200m water resistance, unidirectional bezel, 1/10s chronograph, luminous markers.',
+    name: 'Urban Sport Watch',
+    description: 'Comfortable everyday watch with a slim profile and modern dial details.',
     price: 380,
     stock: 22,
-    images: ['https://picsum.photos/seed/depth-chrono-44/700/700'],
+    images: ['https://www-konga-com-res.cloudinary.com/image/upload/f_auto,q_auto,w_400,c_limit/media/catalog/product/V/Q/239986_1785072555.jpg'],
   },
   {
     categorySlug: 'watches',
-    name: 'Atelier Dress 38',
-    description:
-      'Hand-wound dress watch. 38mm case, 30m water resistance, 42h power reserve, 21,600vph, exhibition case back. 17 jewels.',
+    name: 'Executive Dress Watch',
+    description: 'Minimal dress watch with a polished finish and understated elegance.',
     price: 890,
     stock: 7,
-    images: ['https://picsum.photos/seed/atelier-dress-38/700/700'],
+    images: ['https://www-konga-com-res.cloudinary.com/image/upload/f_auto,q_auto,w_400,c_limit/media/catalog/product/U/S/239986_1784868780.jpg'],
   },
   {
-    categorySlug: 'straps-bracelets',
-    name: 'Horween Leather Strap — Chestnut',
-    description: 'Horween Chromexcel leather, 20mm lug width, quick-release spring bars, brushed buckle.',
-    price: 55,
-    stock: 40,
-    images: ['https://picsum.photos/seed/horween-strap-chestnut/700/700'],
-  },
-  {
-    categorySlug: 'straps-bracelets',
-    name: 'Milanese Mesh Bracelet — Brushed Steel',
-    description: 'Brushed 316L stainless mesh, 22mm, micro-adjustable sliding clasp.',
-    price: 75,
-    stock: 30,
-    images: ['https://picsum.photos/seed/milanese-mesh-steel/700/700'],
-  },
-  {
-    categorySlug: 'straps-bracelets',
-    name: 'FKM Rubber Strap — Graphite',
-    description: 'Vulcanized FKM rubber, 22mm, integrated curved lugs, stainless quick-release pins.',
-    price: 45,
-    stock: 35,
-    images: ['https://picsum.photos/seed/fkm-strap-graphite/700/700'],
-  },
-  {
-    categorySlug: 'winders-storage',
-    name: 'Single Watch Winder — Walnut',
-    description: 'Quiet Mabuchi motor, 4 rotation programs, walnut veneer, holds 1 automatic watch.',
-    price: 120,
+    categorySlug: 'watches',
+    name: 'Signature Steel Watch',
+    description: 'Clean-lined steel watch designed for daily wear and versatile styling.',
+    price: 540,
     stock: 15,
-    images: ['https://picsum.photos/seed/single-winder-walnut/700/700'],
-  },
-  {
-    categorySlug: 'winders-storage',
-    name: 'Six-Slot Travel Case — Ballistic Nylon',
-    description: 'Ballistic nylon exterior, microsuede-lined slots, holds 6 watches, compression strap per slot.',
-    price: 65,
-    stock: 25,
-    images: ['https://picsum.photos/seed/six-slot-travel-case/700/700'],
-  },
-  {
-    categorySlug: 'tools-care',
-    name: 'Precision Spring Bar Tool Kit',
-    description: 'Fork and pin-style spring bar tools, replacement bar assortment (18-24mm), aluminum case.',
-    price: 22,
-    stock: 50,
-    images: ['https://picsum.photos/seed/spring-bar-tool-kit/700/700'],
-  },
-  {
-    categorySlug: 'tools-care',
-    name: 'Case Back Opener — Adjustable',
-    description: 'Adjustable two-pin and four-pin case back wrench, fits 0.9mm-3.2mm openings.',
-    price: 28,
-    stock: 40,
-    images: ['https://picsum.photos/seed/case-back-opener/700/700'],
+    images: ['https://www-konga-com-res.cloudinary.com/image/upload/f_auto,q_auto,w_400,c_limit/media/catalog/product/N/R/239986_1784690858.jpg'],
   },
 ];
 
 async function seed() {
-  await mongoose.connect(env.MONGO_URI);
+  await connectDB();
   console.log('Connected to MongoDB. Seeding...');
 
   const categoryIdBySlug = {};
@@ -151,7 +95,7 @@ async function seed() {
   }
 
   console.log(`\nDone. ${CATEGORIES.length} categories, ${PRODUCTS.length} products.`);
-  await mongoose.disconnect();
+  await require('mongoose').disconnect();
 }
 
 seed().catch((err) => {

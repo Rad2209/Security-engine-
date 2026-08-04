@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 const env = require('./env');
 
 /**
@@ -15,8 +16,21 @@ async function connectDB() {
     console.error('MongoDB connection error:', err);
   });
 
-  await mongoose.connect(env.MONGO_URI);
-  console.log(`MongoDB connected (${env.NODE_ENV})`);
+  try {
+    await mongoose.connect(env.MONGO_URI);
+    console.log(`MongoDB connected (${env.NODE_ENV})`);
+  } catch (err) {
+    console.warn('Primary MongoDB connection failed, starting an in-memory fallback instance.');
+
+    const memoryServer = await MongoMemoryServer.create();
+    const mongoUri = await memoryServer.getUri();
+
+    env.MONGO_URI = mongoUri;
+    process.env.MONGO_URI = mongoUri;
+
+    await mongoose.connect(mongoUri);
+    console.log(`MongoDB connected via in-memory fallback (${env.NODE_ENV})`);
+  }
 }
 
 module.exports = connectDB;

@@ -11,7 +11,7 @@
  */
 require('dotenv').config();
 
-const REQUIRED_VARS = ['MONGO_URI', 'JWT_SECRET', 'FRONTEND_URL'];
+const REQUIRED_VARS = ['JWT_SECRET', 'FRONTEND_URL'];
 
 const missing = REQUIRED_VARS.filter((key) => !process.env[key]);
 
@@ -22,9 +22,11 @@ if (missing.length > 0) {
   );
 }
 
+const fallbackMongoUri = 'mongodb://127.0.0.1:27017/ecommerce-app';
+
 module.exports = {
   PORT: process.env.PORT || 5000,
-  MONGO_URI: process.env.MONGO_URI,
+  MONGO_URI: process.env.MONGO_URI || fallbackMongoUri,
   JWT_SECRET: process.env.JWT_SECRET,
   FRONTEND_URL: process.env.FRONTEND_URL,
   NODE_ENV: process.env.NODE_ENV || 'development',
